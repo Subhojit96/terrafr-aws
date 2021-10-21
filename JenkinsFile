@@ -6,11 +6,6 @@ pipeline{
         maven "maven"
     }
     stages {
-       stage ('checkout'){
-            steps{
-            git 'https://github.com/Subhojit96/terrafr-aws/tree/main/Maven-Build' 
-            }
-       }
        stage('build'){
            steps{
                sh 'mvn clean compile test package install -f ./pom.xml'
