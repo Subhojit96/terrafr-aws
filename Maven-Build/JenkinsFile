@@ -1,0 +1,33 @@
+pipeline{
+    agent {
+        label "master"
+    }
+    tools{
+        maven "maven"
+    }
+    stages {
+       stage ('checkout'){
+            steps{
+            git 'https://github.com/Subhojit96/terrafr-aws.git' 
+            }
+       }
+       stage('build'){
+           steps{
+               sh 'mvn clean compile test package install -f ./pom.xml'
+           }
+       }
+       stage('Email-notification-approval'){
+           steps {
+            emailext attachLog: true, body: 'Build Successfully Deployed', subject: "Success build from-'${env.JOB_NAME}'", to: 'subhojit1025@gmail.com;heartomaticsubhojit@gmail.com'
+           }
+       }
+       stage('Deploy'){
+           steps{
+                sshagent(['SSHkeys']) {
+                sh "scp -o StrictHostKeyChecking=no webapp/target/webapp.war ec2-user@192.168.1.248:/home/ec2-user/apache-tomcat-8.5.72/webapps"
+                }
+           }
+       }
+
+    }
+}
