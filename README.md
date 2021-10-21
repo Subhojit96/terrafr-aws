@@ -1,2 +1,3 @@
-#Jenkins Pipeline
-Deploy AWS infra using terraform along with maven build
+# maven-project
+
+Simple Maven Project
