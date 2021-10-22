@@ -23,6 +23,10 @@ pipeline{
                 }
            }
        }
-
+        stage('UploadArtifacttoAWS-S3'){
+            steps{
+            s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'artifactstorejenkins', excludedFile: '', flatten: false, gzipFiles: false, keepForever: true, managedArtifacts: false, noUploadOnFailure: true, selectedRegion: 'ap-south-1', showDirectlyInBrowser: false, sourceFile: '**/webapp/target/webapp.war', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: true]], pluginFailureResultConstraint: 'FAILURE', profileName: 'artifact-s3', userMetadata: []
+            }
+        }
     }
 }
